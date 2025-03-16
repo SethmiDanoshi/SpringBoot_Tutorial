@@ -2,7 +2,7 @@ package com.springboot.test.test.Application.controllers;
 
 import com.springboot.test.test.Domain.entity.Student;
 import com.springboot.test.test.External.repository.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,14 +13,12 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
+@AllArgsConstructor
 public class StudentController {
 
+    //inject dependency
     private final StudentRepository studentRepository;
 
-    @Autowired  // Injects StudentRepository automatically
-    public StudentController(StudentRepository studentRepository) {
-        this.studentRepository = studentRepository;
-    }
     @GetMapping("/list")
     public List<Student> getStudent(){
         return studentRepository.findAll();
