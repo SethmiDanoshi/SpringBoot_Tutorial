@@ -3,6 +3,7 @@ package com.springboot.test.test.Application.controllers;
 import com.springboot.test.test.Domain.entity.Student;
 import com.springboot.test.test.External.repository.StudentRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,31 +14,36 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
-@AllArgsConstructor
 public class StudentController {
 
     //inject dependency
     private final StudentRepository studentRepository;
 
-    @GetMapping("/list")
-    public List<Student> getStudent(){
-        return studentRepository.findAll();
+    @Autowired
+    public StudentController(StudentRepository studentRepository){
+        this.studentRepository= studentRepository;
     }
 
+    @GetMapping("/list")
+//    public List<Student> getStudent(){
+//        return studentRepository.findAll();
+//    }
+
+
     //find student by id:
-    //    public Student getStudent(){
-    //        return studentRepository.findById(2).get();
-    //    }
+//        public Student getStudent(){
+//            return studentRepository.findById(2).get();
+//        }
 
     //if id not present:
-    //    public Student getStudent(){
-    //        Optional<Student> student = studentRepository.findById(3);
-    //        if (student.isPresent()){
-    //            return student.get();
-    //        }else{
-    //            return new Student();
-    //        }
-    //    }
+        public Student getStudent(){
+            Optional<Student> student = studentRepository.findByName("Sethmi");
+            if (student.isPresent()){
+                return student.get();
+            }else{
+                return new Student();
+            }
+        }
 
     @PostMapping("/Add")
     public String addStudent(){
